@@ -11,7 +11,7 @@ spec:
     protocol: TCP
     targetPort: {{ .Values.service.targetport }}
   selector:
-    app: {{ .Values.name }}
+    app: {{ .Values.deployment.name }}
   type:  {{ .Values.service.type }}
 status:
   loadBalancer: {}
