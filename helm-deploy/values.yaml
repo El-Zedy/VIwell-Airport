@@ -8,9 +8,8 @@ networkPolicy:
 service:
   name: airport-service
 
-hpa:
-  name: airport-hpa
-  
+hpa: airport-hpa
+
 image:
   repository: 454717754853.dkr.ecr.us-east-1.amazonaws.com/airport-repo-dev
   pullPolicy: Always
