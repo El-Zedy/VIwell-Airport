@@ -5,9 +5,6 @@ replicaCount: 1
 networkPolicy:
   name: airport-networkpolicy
 
-service:
-  name: airport-service
-
 hpa: airport-hpa
 
 image:
@@ -25,7 +22,7 @@ service:
   port: 8000
   targetport: 8080
   loadBalancerInternal: "true"
-
+  name: airport-service
 resources:
   requests:
     cpu: 100m
