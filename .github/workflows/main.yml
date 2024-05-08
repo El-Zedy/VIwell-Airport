@@ -2,7 +2,7 @@
 
   on: 
     push:
-      branches: [ main ]
+      branches: [ feature/v1.1.0 ]
   env:
     ECR_REPOSITORY: airport-repo-dev
     EKS_CLUSTER_NAME: EKS-Simple-Cluster-DEV
@@ -51,7 +51,7 @@
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
           IMAGE_TAG: ${{ steps.commit.outputs.short }}
         run: |
-          sed -i "s/tag: TAG/tag: ${{ steps.commit.outputs.short }}/g" helm-deploy/values.yaml && \
-          cd cd helm && \
+          sed -i 's|TAG|'"${IMAGE_TAG}"'|g' helm-deploy/values.yaml && \
+          cd helm-deploy && \
           helm package .  && \
-          helm upgrade -i airport ./airport-service.tgz 
+          helm upgrade -i airport ./airport-service-0.1.0.tgz -n helm 

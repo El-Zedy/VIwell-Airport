@@ -2,8 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: {{ .Values.name }}
-  name: {{ .Values.name }}
+    app: {{ .Values.deployment.name }}
+  name: {{ .Values.deployment.name }}
   namespace: {{ .Values.namespace }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
@@ -11,7 +11,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app: {{ .Values.name }}
+      app: {{ .Values.deployment.name }}
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -25,12 +25,12 @@ spec:
       {{- end }}
 
       labels:
-        app: {{ .Values.name }}
+        app: {{ .Values.deployment.name }}
     spec:
       containers: 
       - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        name: {{ .Values.name }}
+        name: {{ .Values..deployment.name }}
         ports:
         - containerPort: {{ .Values.container.port }}
           protocol: TCP
@@ -44,7 +44,7 @@ spec:
           periodSeconds: 15
           successThreshold: 1
           timeoutSeconds: 5        
-        name: {{ .Values.name }}
+        name: {{ .Values.deployment.name }}
         ports:
         - containerPort: {{ .Values.container.port }}
           protocol: TCP
