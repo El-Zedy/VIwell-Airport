@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: airports-service-dev
+  namespace: dev
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+spec:
+  selector:
+    app: airports-deployment-dev
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8080 
+  type: LoadBalancer

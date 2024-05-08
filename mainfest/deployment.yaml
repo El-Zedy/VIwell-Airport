@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airports-deployment-dev
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airports-deployment-dev
+  template:
+    metadata:
+      labels:
+        app: airports-deployment-dev
+    spec:
+      containers:
+        - name: airports-deployment-dev
+          image: IMAGE_NAME
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            timeoutSeconds: 5

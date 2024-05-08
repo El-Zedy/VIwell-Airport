@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: airports-dev-network-policy
+  namespace: dev
+spec:
+  podSelector:
+    matchLabels:
+      app: airports-deployment-dev
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: airports-service-dev
