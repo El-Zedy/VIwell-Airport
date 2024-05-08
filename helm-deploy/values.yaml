@@ -1,0 +1,38 @@
+name: airport
+replicaCount: 1
+
+image:
+  repository: 454717754853.dkr.ecr.us-east-1.amazonaws.com/airport-repo-dev
+  pullPolicy: Always
+  tag: TAG
+
+podAnnotations:
+  linkerd.io/inject: disabled
+
+podSecurityContext: {}
+
+service:
+  type: LoadBalancer
+  port: 8000
+  targetport: 8080
+  annotations: 
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 200m
+container:
+  port: 8080
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+namespace: "helm"
+
+##for liveness and readiness
+path_liveness: "/health/live"
+port_liveness: "8080"
+path_readiness: "/health/ready"
+port_readiness: "8080"
